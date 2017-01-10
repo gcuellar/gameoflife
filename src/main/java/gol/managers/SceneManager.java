@@ -32,7 +32,8 @@ public class SceneManager implements ISceneManager {
 	}
 
 	@Override
-	public void current(Scene scene) {
+	public void current(SceneEnum name) {
+		Scene scene = scenes.get(name);
 		this.currentScene = scene;
 	}
 

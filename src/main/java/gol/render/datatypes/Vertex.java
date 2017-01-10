@@ -1,11 +1,11 @@
 package gol.render.datatypes;
 
-public class VertexData {
+public class Vertex {
 
 	private float x, y, z;
 	private float red, green, blue, alpha;
 
-	public VertexData() {
+	public Vertex() {
 		x = 0.0f;
 		y = 0.0f;
 		z = 0.0f;
@@ -16,7 +16,7 @@ public class VertexData {
 		alpha = 0.0f;
 	}
 
-	public VertexData(float xCoord, float yCoord, float zCoord) {
+	public Vertex(float xCoord, float yCoord, float zCoord) {
 		x = xCoord;
 		y = yCoord;
 		z = zCoord;
@@ -27,7 +27,7 @@ public class VertexData {
 		alpha = 0.0f;
 	}
 
-	public VertexData(float xCoord, float yCoord, float zCoord, float redComp, float greenComp, float blueComp,
+	public Vertex(float xCoord, float yCoord, float zCoord, float redComp, float greenComp, float blueComp,
 			float alphaComp) {
 		x = xCoord;
 		y = yCoord;

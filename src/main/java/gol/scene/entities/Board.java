@@ -61,7 +61,6 @@ public class Board extends Entity implements IRenderizable {
 	}
 
 	public void renderize() {
-		
 
 		float[] vertices = { 
 				-0.5f, 0.5f, 0f,

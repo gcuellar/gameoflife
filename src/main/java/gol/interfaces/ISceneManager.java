@@ -9,7 +9,7 @@ public interface ISceneManager {
 	
 	public Scene getScene(SceneEnum name);
 	
-	public void current(Scene scene);
+	public void current(SceneEnum name);
 	
 	public void renderScene();
 	

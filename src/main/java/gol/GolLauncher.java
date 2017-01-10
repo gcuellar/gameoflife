@@ -26,13 +26,10 @@ import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
-import static org.lwjgl.opengl.GL11.GL_COLOR_ARRAY;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
-import static org.lwjgl.opengl.GL11.glEnableClientState;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -43,13 +40,22 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import gol.config.Window;
+import gol.managers.SceneManager;
 
-public class HelloWorld {
+public class GolLauncher {
 
 	// The window handle
 	private long window;
+	
+	@Autowired
+	private SceneManager sceneManager;
+
+	private static ApplicationContext context;
 
 	public void run() {
 		System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -137,7 +143,8 @@ public class HelloWorld {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the
 																// framebuffer
 
-			drawBoard();
+			sceneManager.updateScene();
+			sceneManager.renderScene();
 
 			glfwSwapBuffers(window); // swap the color buffers
 
@@ -148,18 +155,9 @@ public class HelloWorld {
 	}
 
 	public static void main(String[] args) {
-		new HelloWorld().run();
-	}
-
-	private void drawBoard() {
-
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
-
-	}
-	
-	private void setupQuad(){
-		
+		context = new AnnotationConfigApplicationContext(SpringConfig.class);
+		GolLauncher launcher = (GolLauncher)context.getBean("launcher");
+		launcher.run();
 	}
 
 }

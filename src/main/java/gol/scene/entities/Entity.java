@@ -1,16 +1,16 @@
 package gol.scene.entities;
 
-import gol.render.datatypes.VertexData;
+import gol.render.datatypes.Vertex;
 
 public abstract class Entity {
 
-	private VertexData[] vertices;
+	private Vertex[] vertices;
 
-	public VertexData[] getVertices() {
+	public Vertex[] getVertices() {
 		return vertices;
 	}
 
-	public void setVertices(VertexData[] vertices) {
+	public void setVertices(Vertex[] vertices) {
 		this.vertices = vertices;
 	}
 	
