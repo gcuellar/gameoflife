@@ -3,10 +3,22 @@ package gol.scene;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import gol.render.interfaces.IRenderManager;
 import gol.scene.entities.Entity;
 
-public abstract class Scene {
+/**
+ * It isn't abstract because Spring couldn't use it for prototyping/injection
+ * @author gcuellar
+ */
+@Component
+public class Scene {
 
+	@Autowired
+	protected IRenderManager renderManager;
+	
 	protected List<Entity> entities;
 	protected String title;
 

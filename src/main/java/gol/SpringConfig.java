@@ -12,6 +12,7 @@ import gol.scene.MainScene;
 import gol.scene.SceneEnum;
 
 @Configuration
+@ComponentScan(basePackages="gol.*")
 public class SpringConfig {
 
 	@Bean(name="launcher")
@@ -20,16 +21,22 @@ public class SpringConfig {
 	}
 	
 	@Bean
-	public IRenderManager renderManager() {
-		RenderManager renderManager = new RenderManager();
-		return renderManager;
+	public MainScene mainScene(){
+		return new MainScene("Game of life");
 	}
-
+	
 	@Bean
 	public ISceneManager sceneManager() {
 		SceneManager sceneManager = new SceneManager();
-		sceneManager.putScene(SceneEnum.MAIN, new MainScene("Game of life"));
+		sceneManager.putScene(SceneEnum.MAIN, mainScene());
 		sceneManager.current(SceneEnum.MAIN);
 		return sceneManager;
+	}
+	
+	
+	@Bean
+	public IRenderManager renderManager() {
+		RenderManager renderManager = new RenderManager();
+		return renderManager;
 	}
 }

@@ -2,18 +2,19 @@ package gol.scene;
 
 import java.nio.FloatBuffer;
 
-import org.lwjgl.BufferUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.lwjgl.opengl.GL15;
+import org.springframework.stereotype.Component;
 
 import gol.interfaces.IRenderizable;
 import gol.interfaces.IUpdatable;
-import gol.render.managers.RenderManager;
+import gol.render.RenderUtils;
+import gol.render.datatypes.Vertex;
 
+@Component
 public class MainScene extends Scene implements IRenderizable, IUpdatable {
 
-	@Autowired
-	private RenderManager renderManager = null;
-	
+	int vboId = 0;
+
 	public MainScene() {
 		super();
 	}
@@ -30,19 +31,29 @@ public class MainScene extends Scene implements IRenderizable, IUpdatable {
 	@Override
 	public void renderize() {
 
-		float[] vertices = { 
-				-0.5f, 0.5f, 0f,
-				-0.5f, -0.5f, 0f,
-				0.5f, -0.5f, 0f,
-				0.5f, -0.5f, 0f,
-				0.5f, 0.5f, 0f,
-				-0.5f,0.5f, 0f };
-
-		FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
-		verticesBuffer.put(vertices);
-		verticesBuffer.flip();
+		Vertex[] vertices = {
+			new Vertex(-0.5f, 0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
+			new Vertex(-0.5f, -0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
+			new Vertex(0.5f, -0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
+			new Vertex(0.5f, -0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
+			new Vertex(0.5f, 0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
+			new Vertex(-0.5f, 0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f)
+		};
 		
-		renderManager.render(verticesBuffer, vertices.length);
+		FloatBuffer fBuffer = RenderUtils.floatBufferFrom(vertices);
+
+		// Generate buffers
+		if (vboId == 0) {
+			vboId = GL15.glGenBuffers();
+		}
+		
+
+		// Bind vertex buffer
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
+		// Insert position data
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, fBuffer, GL15.GL_STATIC_DRAW);
+		
+		renderManager.render(vboId);
 	}
 
 }

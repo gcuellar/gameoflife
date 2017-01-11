@@ -36,6 +36,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 import java.nio.IntBuffer;
 
 import org.lwjgl.Version;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -43,17 +44,22 @@ import org.lwjgl.system.MemoryStack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
 import gol.config.Window;
-import gol.managers.SceneManager;
+import gol.interfaces.ISceneManager;
+import gol.render.interfaces.IRenderManager;
 
+@Component
 public class GolLauncher {
 
 	// The window handle
 	private long window;
 	
 	@Autowired
-	private SceneManager sceneManager;
+	private ISceneManager sceneManager;
+	@Autowired
+	private IRenderManager renderManager;
 
 	private static ApplicationContext context;
 
@@ -88,6 +94,11 @@ public class GolLauncher {
 													// after creation
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be
 													// resizable
+		//Uncomment for 4.1 openGL version
+		glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+		glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 1);
 
 		// Create the window
 		window = glfwCreateWindow(Window.width, Window.height, "Hello World!", NULL, NULL);
@@ -124,6 +135,9 @@ public class GolLauncher {
 
 		// Make the window visible
 		glfwShowWindow(window);
+		
+		// Init RenderManager
+		renderManager.init();
 	}
 
 	private void loop() {
@@ -135,22 +149,23 @@ public class GolLauncher {
 		GL.createCapabilities();
 
 		// Set the clear color
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the
 																// framebuffer
-
-			sceneManager.updateScene();
-			sceneManager.renderScene();
-
-			glfwSwapBuffers(window); // swap the color buffers
-
+			
 			// Poll for window events. The key callback above will only be
 			// invoked during this call.
 			glfwPollEvents();
+			
+			sceneManager.updateScene();
+			
+			sceneManager.renderScene();
+
+			glfwSwapBuffers(window); // swap the color buffers
 		}
 	}
 
@@ -159,5 +174,6 @@ public class GolLauncher {
 		GolLauncher launcher = (GolLauncher)context.getBean("launcher");
 		launcher.run();
 	}
-
+	
+	
 }

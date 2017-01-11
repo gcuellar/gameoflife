@@ -1,7 +1,11 @@
 package gol.render.datatypes;
 
-public class Vertex {
+import gol.render.interfaces.IConvertibleIntoArray;
 
+public class Vertex implements IConvertibleIntoArray{
+
+	public static final int NUM_OF_COMPONENTS = 7;
+	
 	private float x, y, z;
 	private float red, green, blue, alpha;
 
@@ -93,6 +97,15 @@ public class Vertex {
 
 	public void setAlpha(float alpha) {
 		this.alpha = alpha;
+	}
+
+	@Override
+	public float[] toFloatArray() {
+		float[] arr = {
+			x,y,z,red,green,blue,alpha	
+		};
+		
+		return arr;
 	}
 
 }
