@@ -69,7 +69,7 @@ public class RenderManager implements IRenderManager{
 		Matrix4f projection = Matrix4f.orthographic(-ratio, ratio, -1f, 1f, -1f, 1f);
 		shaderProgram.setUniform(uniProjection, projection);
 		
-		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, numVertices);
+		GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, numVertices);
 		
 		shaderProgram.disableVertexAttribute(posAttrib);
 		shaderProgram.disableVertexAttribute(colAttrib);

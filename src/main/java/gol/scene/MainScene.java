@@ -2,12 +2,13 @@ package gol.scene;
 
 import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL15;
 import org.springframework.stereotype.Component;
 
 import gol.interfaces.IRenderizable;
 import gol.interfaces.IUpdatable;
-import gol.render.RenderUtils;
+import gol.render.datatypes.Quad;
 import gol.render.datatypes.Vertex;
 import gol.render.datatypes.VertexArrayObject;
 import gol.render.datatypes.VertexBufferObject;
@@ -34,16 +35,16 @@ public class MainScene extends Scene implements IRenderizable, IUpdatable {
 	@Override
 	public void renderize() {
 
-		Vertex[] vertices = {
-			new Vertex(-0.5f, 0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
-			new Vertex(-0.5f, -0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
-			new Vertex(0.5f, -0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
-			new Vertex(0.5f, -0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
-			new Vertex(0.5f, 0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
-			new Vertex(-0.5f, 0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f)
-		};
+		Quad quad = new Quad();
+		quad.setV1(new Vertex(-0.5f, 0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f));
+		quad.setV2(new Vertex(-0.5f, -0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f));
+		quad.setV3(new Vertex(0.5f, 0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f));
+		quad.setV4(new Vertex(0.5f, -0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f));
 		
-		FloatBuffer fBuffer = RenderUtils.floatBufferFrom(vertices);
+		float[] arr = quad.toFloatArray();
+		FloatBuffer fBuffer = BufferUtils.createFloatBuffer(arr.length);
+		fBuffer.put(arr);
+		fBuffer.flip();
 		
 		if(vbo == null)
 			vbo = new VertexBufferObject();
@@ -56,7 +57,7 @@ public class MainScene extends Scene implements IRenderizable, IUpdatable {
 		vbo.uploadData(GL15.GL_ARRAY_BUFFER, fBuffer, GL15.GL_STATIC_DRAW);
 		vao.unbind();
 		
-		renderManager.render(vbo, vao, vertices.length);
+		renderManager.render(vbo, vao, 4);
 	}
 
 }
