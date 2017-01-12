@@ -6,63 +6,75 @@ import org.springframework.stereotype.Service;
 
 import gol.config.Window;
 import gol.render.datatypes.Vertex;
+import gol.render.datatypes.VertexArrayObject;
+import gol.render.datatypes.VertexBufferObject;
 import gol.render.interfaces.IRenderManager;
 import gol.render.math.Matrix4f;
-import gol.render.shader.ShaderUtils;
+import gol.render.shader.Shader;
+import gol.render.shader.ShaderProgram;
 
 @Service
 public class RenderManager implements IRenderManager{
 
-	private int vertexShaderId = 0;
-	private int fragmentShaderId = 0;
+	private Shader vertexShader = null;
+	private Shader fragmentShader = null;
 	
-	private int shaderProgramId = 0;
+	private ShaderProgram shaderProgram = null;
+	
+
+	
+	private final int floatSize = Float.BYTES;
 	
 	@Override
 	public void init(){
 		// Compile shaders
-		vertexShaderId = ShaderUtils.compileShader("shaders/vertexShader", GL20.GL_VERTEX_SHADER);
-		fragmentShaderId = ShaderUtils.compileShader("shaders/fragmentShader", GL20.GL_FRAGMENT_SHADER);
+		vertexShader = Shader.loadShader(GL20.GL_VERTEX_SHADER, "shaders/vertexShader");
+		fragmentShader = Shader.loadShader(GL20.GL_FRAGMENT_SHADER, "shaders/fragmentShader");
 		
 		// Link program
-		shaderProgramId = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
+		shaderProgram = new ShaderProgram();
+		shaderProgram.attachShader(vertexShader);
+		shaderProgram.attachShader(fragmentShader);
+		shaderProgram.bindFragmentDataLocation(0, "fragColor");
+		shaderProgram.link();
 	}
 
 	@Override
-	public void render(int vboId) {
+	public void render(VertexBufferObject vbo, VertexArrayObject vao, int numVertices) {
 		
-		GL20.glUseProgram(shaderProgramId);
+		shaderProgram.bind();
+		vao.bind();
 		
-		int floatSize = Float.BYTES;
+		int posAttrib = shaderProgram.getAttributeLocation("position");
+		shaderProgram.enableVertexAttribute(posAttrib);
+		shaderProgram.pointVertexAttribute(posAttrib, 3, Vertex.NUM_OF_COMPONENTS * floatSize, 0);
 
-		int posAttrib = GL20.glGetAttribLocation(shaderProgramId, "position");
-		GL20.glEnableVertexAttribArray(posAttrib);
-		GL20.glVertexAttribPointer(posAttrib, 3, GL11.GL_FLOAT, false, Vertex.NUM_OF_COMPONENTS * floatSize, 0);
-
-		int colAttrib = GL20.glGetAttribLocation(shaderProgramId, "color");
-		GL20.glEnableVertexAttribArray(colAttrib);
-		GL20.glVertexAttribPointer(colAttrib, 3, GL11.GL_FLOAT, false, Vertex.NUM_OF_COMPONENTS * floatSize, 3 * floatSize);
+		int colAttrib = shaderProgram.getAttributeLocation("color");
+		shaderProgram.enableVertexAttribute(colAttrib);
+		shaderProgram.pointVertexAttribute(colAttrib, 3, Vertex.NUM_OF_COMPONENTS * floatSize, 3 * floatSize);
 		
 		
 		
-		
-		
-		
-		int uniModel = GL20.glGetUniformLocation(shaderProgramId, "model");
+		int uniModel = shaderProgram.getUniformLocation("model");
 		Matrix4f model = new Matrix4f();
-		GL20.glUniformMatrix4fv(uniModel, false, model.getBuffer());
+		shaderProgram.setUniform(uniModel, model);
 
-		int uniView = GL20.glGetUniformLocation(shaderProgramId, "view");
+		
+		int uniView = shaderProgram.getUniformLocation("view");
 		Matrix4f view = new Matrix4f();
-		GL20.glUniformMatrix4fv(uniView, false, view.getBuffer());
+		shaderProgram.setUniform(uniView, view);
 
-		int uniProjection = GL20.glGetUniformLocation(shaderProgramId, "projection");
+		int uniProjection = shaderProgram.getUniformLocation("projection");
 		float ratio = Window.width / Window.height;
 		Matrix4f projection = Matrix4f.orthographic(-ratio, ratio, -1f, 1f, -1f, 1f);
-		GL20.glUniformMatrix4fv(uniProjection, false, projection.getBuffer());
+		shaderProgram.setUniform(uniProjection, projection);
 		
+		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, numVertices);
 		
-		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 3);
+		shaderProgram.disableVertexAttribute(posAttrib);
+		shaderProgram.disableVertexAttribute(colAttrib);
+		
+		shaderProgram.unbind();
 	}
 	
 	

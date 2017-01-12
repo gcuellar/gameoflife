@@ -9,11 +9,13 @@ import gol.interfaces.IRenderizable;
 import gol.interfaces.IUpdatable;
 import gol.render.RenderUtils;
 import gol.render.datatypes.Vertex;
+import gol.render.datatypes.VertexArrayObject;
 import gol.render.datatypes.VertexBufferObject;
 
 @Component
 public class MainScene extends Scene implements IRenderizable, IUpdatable {
 
+	VertexArrayObject vao = null;
 	VertexBufferObject vbo = null;
 
 	public MainScene() {
@@ -32,8 +34,6 @@ public class MainScene extends Scene implements IRenderizable, IUpdatable {
 	@Override
 	public void renderize() {
 
-		
-		
 		Vertex[] vertices = {
 			new Vertex(-0.5f, 0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
 			new Vertex(-0.5f, -0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f),
@@ -44,15 +44,19 @@ public class MainScene extends Scene implements IRenderizable, IUpdatable {
 		};
 		
 		FloatBuffer fBuffer = RenderUtils.floatBufferFrom(vertices);
-
+		
 		if(vbo == null)
 			vbo = new VertexBufferObject();
+
+		if(vao == null)
+			vao = new VertexArrayObject();
 		
+		vao.bind();
 		vbo.bind(GL15.GL_ARRAY_BUFFER);
 		vbo.uploadData(GL15.GL_ARRAY_BUFFER, fBuffer, GL15.GL_STATIC_DRAW);
+		vao.unbind();
 		
-		
-		renderManager.render(vbo.getID());
+		renderManager.render(vbo, vao, vertices.length);
 	}
 
 }
