@@ -47,7 +47,9 @@ public class Board extends Entity implements IRenderizable {
 		board = new HashMap<BoardCoordinate, BoardBox>();
 		for (int i = 0; i < columns; i++) {
 			for (int j = 0; i < rows; i++) {
-				board.put(new BoardCoordinate(i, j), new BoardBox(false));
+				BoardBox box = new BoardBox(false);
+//				new Quad();
+				board.put(new BoardCoordinate(i, j), box);
 			}
 		}
 	}

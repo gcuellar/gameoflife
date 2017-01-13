@@ -38,8 +38,8 @@ public class MainScene extends Scene implements IRenderizable, IUpdatable {
 		Quad quad = new Quad();
 		quad.setV1(new Vertex(-0.5f, 0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f));
 		quad.setV2(new Vertex(-0.5f, -0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f));
-		quad.setV3(new Vertex(0.5f, 0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f));
-		quad.setV4(new Vertex(0.5f, -0.5f, 0f, 1.0f, 1.0f, 0.0f, 0.0f));
+		quad.setV3(new Vertex(0.5f, 0.5f, 0f, 0.0f, 1.0f, 0.0f, 0.0f));
+		quad.setV4(new Vertex(0.5f, -0.5f, 0f, 1.0f, 1.0f, 1.0f, 0.0f));
 		
 		float[] arr = quad.toFloatArray();
 		FloatBuffer fBuffer = BufferUtils.createFloatBuffer(arr.length);
@@ -54,10 +54,16 @@ public class MainScene extends Scene implements IRenderizable, IUpdatable {
 		
 		vao.bind();
 		vbo.bind(GL15.GL_ARRAY_BUFFER);
+		
 		vbo.uploadData(GL15.GL_ARRAY_BUFFER, fBuffer, GL15.GL_STATIC_DRAW);
+		
+//		vbo.unbind(GL15.GL_ARRAY_BUFFER);
 		vao.unbind();
 		
 		renderManager.render(vbo, vao, 4);
+	}
+	
+	public void renderize2(){
 	}
 
 }

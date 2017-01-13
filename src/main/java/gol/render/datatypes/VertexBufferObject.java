@@ -60,6 +60,10 @@ public class VertexBufferObject {
     public void bind(int target) {
         glBindBuffer(target, id);
     }
+    
+    public void unbind(int target){
+    	glBindBuffer(target,0);
+    }
 
     /**
      * Upload vertex data to this VBO with specified target, data and usage. The
