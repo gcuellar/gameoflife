@@ -1,17 +1,12 @@
 package gol.scene.entities;
 
-import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lwjgl.BufferUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import gol.config.Window;
-import gol.interfaces.IBufferable;
 import gol.render.datatypes.Quad;
 import gol.render.datatypes.Vertex;
-import gol.render.managers.RenderManager;
+import gol.render.interfaces.IRenderer;
 
 /**
  * Game board class.
@@ -20,7 +15,7 @@ import gol.render.managers.RenderManager;
  * 
  * @author gcuellar
  */
-public class Grid extends Entity implements IBufferable {
+public class Grid extends Entity {
 
 	private int rows;
 	private int columns;
@@ -29,9 +24,6 @@ public class Grid extends Entity implements IBufferable {
 	private float boxHeight;
 
 	private Map<String, GridBox> board;
-	
-	@Autowired
-	RenderManager renderManager;
 
 	public Grid(int numberOfRows, int numberOfColumns) {
 
@@ -71,22 +63,12 @@ public class Grid extends Entity implements IBufferable {
 	}
 
 	@Override
-	public FloatBuffer createBuffer() {
+	public void render(IRenderer renderer, float alpha) {
+		
 		Quad q1 = board.get("0;0").getQuad();
-		Quad q2 = board.get("19;19").getQuad();
-		Quad q3 = board.get("11;11").getQuad();
 		
-		float[] arr1 = q1.toFloatArray();
-		float[] arr2 = q2.toFloatArray();
-		float[] arr3 = q3.toFloatArray();
-		
-		FloatBuffer buffer = BufferUtils.createFloatBuffer(arr1.length+arr2.length+arr3.length);
-		buffer.put(arr1);
-		buffer.put(arr2);
-		buffer.put(arr3);
-		buffer.flip();
-		
-		return buffer;
+		renderer.drawTriangle(q1.getV1(), q1.getV2(), q1.getV3());
+		renderer.drawTriangle(q1.getV2(), q1.getV4(), q1.getV3());
 	}
 
 	

@@ -226,11 +226,11 @@ public class ShaderProgram {
     /**
      * Use this shader program.
      */
-    public void bind() {
+    public void use() {
         glUseProgram(id);
     }
     
-    public void unbind(){
+    public void notuse(){
     	glUseProgram(0);
     }
 

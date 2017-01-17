@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import gol.interfaces.IRenderizable;
 import gol.interfaces.ISceneManager;
+import gol.interfaces.IUpdatable;
 import gol.scene.Scene;
 import gol.scene.SceneEnum;
 
@@ -37,12 +39,16 @@ public class SceneManager implements ISceneManager {
 
 	@Override
 	public void renderScene() {
-		this.currentScene.renderize();
+		if(this.currentScene instanceof IRenderizable){
+			((IRenderizable)this.currentScene).render(1f);
+		}
 	}
 
 	@Override
 	public void updateScene() {
-		this.currentScene.update();
+		if(this.currentScene instanceof IUpdatable){
+			((IUpdatable)this.currentScene).update(1f);
+		}
 	}
 
 }

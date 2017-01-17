@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import gol.render.interfaces.IRenderManager;
+import gol.render.interfaces.IRenderer;
 import gol.scene.entities.Entity;
 
 /**
@@ -15,10 +15,10 @@ import gol.scene.entities.Entity;
  * @author gcuellar
  */
 @Component
-public class Scene {
+public class Scene{
 
 	@Autowired
-	protected IRenderManager renderManager;
+	protected IRenderer renderManager;
 
 	protected List<Entity> entities;
 	protected String title;
@@ -42,14 +42,6 @@ public class Scene {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public void renderize() {
-
-	}
-
-	public void update() {
-
 	}
 
 }

@@ -1,6 +1,7 @@
 package gol.scene.entities;
 
 import gol.render.datatypes.Vertex;
+import gol.render.interfaces.IRenderer;
 
 public abstract class Entity {
 
@@ -14,4 +15,5 @@ public abstract class Entity {
 		this.vertices = vertices;
 	}
 	
+	public abstract void render(IRenderer renderer, float alpha);
 }

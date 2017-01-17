@@ -48,7 +48,7 @@ import org.springframework.stereotype.Component;
 
 import gol.config.Window;
 import gol.interfaces.ISceneManager;
-import gol.render.interfaces.IRenderManager;
+import gol.render.interfaces.IRenderer;
 
 @Component
 public class GolLauncher {
@@ -59,7 +59,7 @@ public class GolLauncher {
 	@Autowired
 	private ISceneManager sceneManager;
 	@Autowired
-	private IRenderManager renderManager;
+	private IRenderer renderManager;
 
 	private static ApplicationContext context;
 

@@ -1,22 +1,15 @@
 package gol.scene;
 
-import java.nio.FloatBuffer;
-
-import org.lwjgl.opengl.GL15;
 import org.springframework.stereotype.Component;
 
+import gol.interfaces.IRenderizable;
 import gol.interfaces.IUpdatable;
-import gol.render.datatypes.VertexArrayObject;
-import gol.render.datatypes.VertexBufferObject;
 import gol.scene.entities.Grid;
 
 @Component
-public class MainScene extends Scene implements IUpdatable {
+public class MainScene extends Scene implements IRenderizable, IUpdatable {
 
-	Grid grid;
-	
-	VertexArrayObject vao = null;
-	VertexBufferObject vbo = null;
+	private Grid grid;
 
 	public MainScene(String title) {
 		super(title);
@@ -30,28 +23,36 @@ public class MainScene extends Scene implements IUpdatable {
 	}
 
 	@Override
-	public void renderize() {
-
-		FloatBuffer fBuffer = grid.createBuffer();
+	public void input() {
+		// TODO Auto-generated method stub
 		
-		if(vbo == null)
-			vbo = new VertexBufferObject();
-
-		if(vao == null)
-			vao = new VertexArrayObject();
-		
-		vao.bind();
-		vbo.bind(GL15.GL_ARRAY_BUFFER);
-		
-		vbo.uploadData(GL15.GL_ARRAY_BUFFER, fBuffer, GL15.GL_STATIC_DRAW);
-		
-//		vbo.unbind(GL15.GL_ARRAY_BUFFER);
-		vao.unbind();
-		
-		renderManager.render(vbo, vao, fBuffer.remaining() / 3);
 	}
-	
-	public void renderize2(){
+
+	@Override
+	public void update(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enter() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void exit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void render(float alpha) {
+		renderManager.clear();
+		
+		renderManager.begin();
+		grid.render(renderManager, 1f);
+		renderManager.end();
 	}
 
 }

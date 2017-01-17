@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import gol.interfaces.ISceneManager;
 import gol.managers.SceneManager;
-import gol.render.interfaces.IRenderManager;
+import gol.render.interfaces.IRenderer;
 import gol.render.managers.RenderManager;
 import gol.scene.MainScene;
 import gol.scene.SceneEnum;
@@ -35,7 +35,7 @@ public class SpringConfig {
 	
 	
 	@Bean
-	public IRenderManager renderManager() {
+	public IRenderer renderManager() {
 		RenderManager renderManager = new RenderManager();
 		return renderManager;
 	}
