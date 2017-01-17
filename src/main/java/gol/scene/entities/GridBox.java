@@ -2,7 +2,7 @@ package gol.scene.entities;
 
 import gol.render.datatypes.Quad;
 
-public class BoardBox {
+public class GridBox {
 
 	private Quad quad = null;
 	
@@ -16,7 +16,7 @@ public class BoardBox {
 		this.alive = alive;
 	}
 
-	public BoardBox(boolean alive) {
+	public GridBox(boolean alive) {
 
 		this.alive = alive;
 	}

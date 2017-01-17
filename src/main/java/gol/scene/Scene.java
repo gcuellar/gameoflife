@@ -11,6 +11,7 @@ import gol.scene.entities.Entity;
 
 /**
  * It isn't abstract because Spring couldn't use it for prototyping/injection
+ * 
  * @author gcuellar
  */
 @Component
@@ -18,15 +19,15 @@ public class Scene {
 
 	@Autowired
 	protected IRenderManager renderManager;
-	
+
 	protected List<Entity> entities;
 	protected String title;
 
 	public Scene() {
 		this.entities = new ArrayList<Entity>();
 	}
-	
-	public Scene(String title){
+
+	public Scene(String title) {
 		this.entities = new ArrayList<Entity>();
 		this.title = title;
 	}
@@ -38,9 +39,17 @@ public class Scene {
 	public String getTitle() {
 		return title;
 	}
-	
-	public void setTitle(String title){
+
+	public void setTitle(String title) {
 		this.title = title;
 	}
-	
+
+	public void renderize() {
+
+	}
+
+	public void update() {
+
+	}
+
 }

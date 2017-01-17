@@ -52,7 +52,6 @@
 
 
 	<dependencies>
-
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -60,11 +59,11 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<!-- JOML -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.joml</groupId> -->
-<!-- 			<artifactId>joml</artifactId> -->
-<!-- 			<version>${joml.version}</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.joml</groupId> -->
+		<!-- <artifactId>joml</artifactId> -->
+		<!-- <version>${joml.version}</version> -->
+		<!-- </dependency> -->
 
 		<!-- LWJGL -->
 		<dependency>

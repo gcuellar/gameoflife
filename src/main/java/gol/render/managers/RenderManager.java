@@ -43,6 +43,9 @@ public class RenderManager implements IRenderManager{
 		shaderProgram.attachShader(fragmentShader);
 		shaderProgram.bindFragmentDataLocation(0, "fragColor");
 		shaderProgram.link();
+		
+		// Set viewport
+		GL11.glViewport(0, 0, Window.width, Window.height);
 	}
 
 	@Override
@@ -71,13 +74,13 @@ public class RenderManager implements IRenderManager{
 		shaderProgram.setUniform(uniView, view);
 
 		int uniProjection = shaderProgram.getUniformLocation("projection");
-		float ratio = Window.width / Window.height;
-		Matrix4f projection = Matrix4f.orthographic(-ratio, ratio, -1f, 1f, -1f, 1f);
+//		float ratio = Window.width / Window.height;
+		Matrix4f projection = Matrix4f.orthographic(0, Window.width, 0, Window.height, -1f, 1f);
 		shaderProgram.setUniform(uniProjection, projection);
 		
 		GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, wireframeMode);
 
-		GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, numVertices);
+		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, numVertices);
 		
 		shaderProgram.disableVertexAttribute(posAttrib);
 		shaderProgram.disableVertexAttribute(colAttrib);

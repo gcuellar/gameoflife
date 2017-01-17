@@ -62,7 +62,10 @@ public class Quad implements IConvertibleIntoArray{
 		CollectionUtils.mergeArrayIntoCollection(this.v1.toFloatArray(), list);
 		CollectionUtils.mergeArrayIntoCollection(this.v2.toFloatArray(), list);
 		CollectionUtils.mergeArrayIntoCollection(this.v3.toFloatArray(), list);
+		
+		CollectionUtils.mergeArrayIntoCollection(this.v2.toFloatArray(), list);
 		CollectionUtils.mergeArrayIntoCollection(this.v4.toFloatArray(), list);
+		CollectionUtils.mergeArrayIntoCollection(this.v3.toFloatArray(), list);
 		
 		float[] arr = new float[list.size()];
 		for(int i=0;i<list.size();i++){
