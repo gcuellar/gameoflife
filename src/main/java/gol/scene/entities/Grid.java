@@ -1,9 +1,13 @@
 package gol.scene.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import gol.config.Colors;
 import gol.config.Window;
+import gol.render.datatypes.Color;
 import gol.render.datatypes.Quad;
 import gol.render.datatypes.Vertex;
 import gol.render.interfaces.IRenderer;
@@ -22,8 +26,9 @@ public class Grid extends Entity {
 
 	private float boxWidth;
 	private float boxHeight;
-
+	
 	private Map<String, GridBox> board;
+	private Vertex[] boardLines;
 
 	public Grid(int numberOfRows, int numberOfColumns) {
 
@@ -39,19 +44,44 @@ public class Grid extends Entity {
 
 		// Init map
 		board = new HashMap<String, GridBox>();
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
+		for (int i = 0; i < columns; i++) {
+			for (int j = 0; j < rows; j++) {
 				GridBox box = new GridBox(false);
 				Quad quad = new Quad();
-				quad.setV1(new Vertex(j*boxWidth, (i+1)*boxHeight, 0f));
-				quad.setV2(new Vertex(j*boxWidth, i*boxHeight, 0f));
-				quad.setV3(new Vertex((j+1)*boxWidth, (i+1)*boxHeight, 0f));
-				quad.setV4(new Vertex((j+1)*boxWidth, i*boxHeight, 0f));
+				quad.setV1(new Vertex(i*boxWidth, (j+1)*boxHeight, 0f, Colors.dead));
+				quad.setV2(new Vertex(i*boxWidth, j*boxHeight, 0f, Colors.dead));
+				quad.setV3(new Vertex((i+1)*boxWidth, (j+1)*boxHeight, 0f, Colors.dead));
+				quad.setV4(new Vertex((i+1)*boxWidth, j*boxHeight, 0f, Colors.dead));
 				box.setQuad(quad);
 				
 				board.put(i+";"+j, box);
 			}
 		}
+		
+		List<Vertex> list = new ArrayList<Vertex>();
+		for(int i=0;i<columns;i++){
+			Vertex v1 = new Vertex(board.get(i+";0").getQuad().getV2(), Colors.lines);
+			list.add(v1);
+			Vertex v2 = new Vertex(board.get(i+";"+(rows-1)).getQuad().getV1(), Colors.lines);
+			list.add(v2);
+		}
+		Vertex v1 = new Vertex(board.get((columns-1)+";0").getQuad().getV4(), Colors.lines);
+		list.add(v1);
+		Vertex v2 = new Vertex(board.get((columns-1)+";"+(rows-1)).getQuad().getV3(), Colors.lines);
+		list.add(v2);
+		
+		for(int i=0;i<rows;i++){
+			Vertex vA = new Vertex(board.get("0;"+i).getQuad().getV2(), Colors.lines);
+			list.add(vA);
+			Vertex vB = new Vertex(board.get((columns-1)+";"+i).getQuad().getV4(), Colors.lines);
+			list.add(vB);
+		}
+		Vertex vA = new Vertex(board.get("0;"+(rows-1)).getQuad().getV1(), Colors.lines);
+		list.add(vA);
+		Vertex vB = new Vertex(board.get((columns-1)+";"+(rows-1)).getQuad().getV3(), Colors.lines);
+		list.add(vB);
+		
+		boardLines = list.stream().toArray(size -> new Vertex[size]);
 	}
 
 	public int getRows() {
@@ -65,10 +95,13 @@ public class Grid extends Entity {
 	@Override
 	public void render(IRenderer renderer, float alpha) {
 		
-		Quad q1 = board.get("0;0").getQuad();
+//		renderer.clearColor(new Color(0.7f,0.7f,0.5f,0f));
 		
-		renderer.drawTriangle(q1.getV1(), q1.getV2(), q1.getV3());
-		renderer.drawTriangle(q1.getV2(), q1.getV4(), q1.getV3());
+		board.get("12;12").setAlive(true);
+		
+		
+		renderer.drawTriangles(board.get("12;12").getQuad().toVertexArray());
+		renderer.drawLines(boardLines);
 	}
 
 	

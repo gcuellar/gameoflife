@@ -19,6 +19,17 @@ public class Vertex implements IConvertibleIntoArray{
 		blue = 0.0f;
 		alpha = 0.0f;
 	}
+	
+	public Vertex(Vertex another, Color color){
+		x = another.getX();
+		y = another.getY();
+		z = another.getZ();
+
+		red = color.getRed();
+		green = color.getGreen();
+		blue = color.getBlue();
+		alpha = color.getAlpha();
+	}
 
 	public Vertex(float xCoord, float yCoord, float zCoord) {
 		x = xCoord;
@@ -31,16 +42,15 @@ public class Vertex implements IConvertibleIntoArray{
 		alpha = 0.0f;
 	}
 
-	public Vertex(float xCoord, float yCoord, float zCoord, float redComp, float greenComp, float blueComp,
-			float alphaComp) {
+	public Vertex(float xCoord, float yCoord, float zCoord, Color color) {
 		x = xCoord;
 		y = yCoord;
 		z = zCoord;
 
-		red = redComp;
-		green = greenComp;
-		blue = blueComp;
-		alpha = alphaComp;
+		red = color.getRed();
+		green = color.getGreen();
+		blue = color.getBlue();
+		alpha = color.getAlpha();
 	}
 
 	public float getX() {

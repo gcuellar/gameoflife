@@ -3,11 +3,13 @@ package gol.render.managers;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
@@ -20,11 +22,14 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 import org.springframework.stereotype.Service;
 
 import gol.config.Config;
+import gol.config.Window;
+import gol.render.datatypes.Color;
 import gol.render.datatypes.Vertex;
 import gol.render.datatypes.VertexArrayObject;
 import gol.render.datatypes.VertexBufferObject;
@@ -43,6 +48,7 @@ public class RenderManager implements IRenderer{
     private FloatBuffer vertices;
     private int numVertices;
     private boolean drawing;
+    private int drawingMode = GL_TRIANGLES;
 
 //    private Font font;
 //    private Font debugFont;
@@ -55,7 +61,7 @@ public class RenderManager implements IRenderer{
         /* Enable blending */
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+        
         /* Create fonts */
 //        try {
 //            font = new Font(new FileInputStream("resources/fonts/Inconsolata.ttf"), 16);
@@ -71,6 +77,11 @@ public class RenderManager implements IRenderer{
      */
     public void clear() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+    
+    @Override
+    public void clearColor(Color color){
+    	glClearColor(color.getRed(),color.getGreen(), color.getBlue(), color.getAlpha());
     }
 
     /**
@@ -115,7 +126,7 @@ public class RenderManager implements IRenderer{
             vbo.uploadSubData(GL_ARRAY_BUFFER, 0, vertices);
 
             /* Draw batch */
-            glDrawArrays(GL_TRIANGLES, 0, numVertices);
+            glDrawArrays(drawingMode, 0, numVertices);
 
             /* Clear vertex data for next batch */
             vertices.clear();
@@ -440,7 +451,8 @@ public class RenderManager implements IRenderer{
         program.setUniform(uniView, view);
 
         /* Set projection matrix to an orthographic projection */
-        Matrix4f projection = Matrix4f.orthographic(0f, width, 0f, height, -1f, 1f);
+//        Matrix4f projection = Matrix4f.orthographic(0f, width, 0f, height, -1f, 1f);
+        Matrix4f projection = Matrix4f.orthographic(0f, Window.width, 0f, Window.height, -1f, 1f);
         int uniProjection = program.getUniformLocation("projection");
         program.setUniform(uniProjection, projection);
     }
@@ -452,31 +464,58 @@ public class RenderManager implements IRenderer{
         /* Specify Vertex Pointer */
         int posAttrib = program.getAttributeLocation("position");
         program.enableVertexAttribute(posAttrib);
-        program.pointVertexAttribute(posAttrib, 2, 7 * Float.BYTES, 0);
+        program.pointVertexAttribute(posAttrib, 3, Vertex.NUM_OF_COMPONENTS * Float.BYTES, 0);
 
         /* Specify Color Pointer */
         int colAttrib = program.getAttributeLocation("color");
         program.enableVertexAttribute(colAttrib);
-        program.pointVertexAttribute(colAttrib, 3, 7 * Float.BYTES, 2 * Float.BYTES);
+        program.pointVertexAttribute(colAttrib, 4, Vertex.NUM_OF_COMPONENTS * Float.BYTES, 3 * Float.BYTES);
 
         /* Specify Texture Pointer */
 //        int texAttrib = program.getAttributeLocation("texcoord");
 //        program.enableVertexAttribute(texAttrib);
-//        program.pointVertexAttribute(texAttrib, 2, 7 * Float.BYTES, 5 * Float.BYTES);
+//        program.pointVertexAttribute(texAttrib, 2, Vertex.NUM_OF_COMPONENTS * Float.BYTES, 5 * Float.BYTES);
     }
     
     @Override
-    public void drawTriangle(Vertex v1, Vertex v2, Vertex v3){
+    public void drawTriangles(Vertex[] arr){
     	if(vertices.remaining() < Vertex.NUM_OF_COMPONENTS * 6){ // Six vertices remaining
     		flush();
     	}
     	
-    	vertices.put(v1.toFloatArray());
-    	vertices.put(v2.toFloatArray());
-    	vertices.put(v3.toFloatArray());
+    	int triangles = arr.length / 3;
+    	for(int i=0;i<triangles;i++){
+    		vertices.put(arr[i*3].toFloatArray());
+        	vertices.put(arr[(i*3)+1].toFloatArray());
+        	vertices.put(arr[(i*3)+2].toFloatArray());
+    	}
     	
-    	numVertices += 3;
+    	numVertices += arr.length;
     }
+
+	@Override
+	public void drawLines(Vertex[] arr) {
+		if(vertices.remaining() < Vertex.NUM_OF_COMPONENTS * 4){ // Six vertices remaining
+    		flush();
+    	}
+		
+		int lines = arr.length / 2;
+    	for(int i=0;i<lines;i++){
+    		vertices.put(arr[i*2].toFloatArray());
+        	vertices.put(arr[(i*2)+1].toFloatArray());
+    	}
+    	
+    	numVertices += arr.length;
+    	
+    	drawingMode = GL_LINES;
+    	flush();
+    	drawingMode = GL_TRIANGLES;
+	}
+
+	@Override
+	public void setViewport(int x, int y, int width, int height) {
+		GL11.glViewport(0, 0, Window.width, Window.height);
+	}
 
 
 }

@@ -54,6 +54,28 @@ public class Quad implements IConvertibleIntoArray{
 	public void setV4(Vertex v4) {
 		this.v4 = v4;
 	}
+	
+	public void setColor(Color color){
+		v1.setRed(color.getRed());
+		v2.setRed(color.getRed());
+		v3.setRed(color.getRed());
+		v4.setRed(color.getRed());
+		
+		v1.setGreen(color.getGreen());
+		v2.setGreen(color.getGreen());
+		v3.setGreen(color.getGreen());
+		v4.setGreen(color.getGreen());
+		
+		v1.setBlue(color.getBlue());
+		v2.setBlue(color.getBlue());
+		v3.setBlue(color.getBlue());
+		v4.setBlue(color.getBlue());
+		
+		v1.setAlpha(color.getAlpha());
+		v2.setAlpha(color.getAlpha());
+		v3.setAlpha(color.getAlpha());
+		v4.setAlpha(color.getAlpha());
+	}
 
 	@Override
 	public float[] toFloatArray() {
@@ -72,6 +94,14 @@ public class Quad implements IConvertibleIntoArray{
 			arr[i] = list.get(i).floatValue();
 		}
 
+		return arr;
+	}
+	
+	public Vertex[] toVertexArray(){
+		Vertex[] arr = {
+				v1,v2,v3,v2,v4,v3
+		};
+		
 		return arr;
 	}
 

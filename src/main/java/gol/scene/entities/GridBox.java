@@ -1,5 +1,6 @@
 package gol.scene.entities;
 
+import gol.config.Colors;
 import gol.render.datatypes.Quad;
 
 public class GridBox {
@@ -14,6 +15,12 @@ public class GridBox {
 
 	public void setAlive(boolean alive) {
 		this.alive = alive;
+		
+		if(alive){
+			quad.setColor(Colors.alive);
+		}else{
+			quad.setColor(Colors.dead);
+		}
 	}
 
 	public GridBox(boolean alive) {

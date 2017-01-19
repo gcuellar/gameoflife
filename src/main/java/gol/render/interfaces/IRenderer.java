@@ -1,5 +1,6 @@
 package gol.render.interfaces;
 
+import gol.render.datatypes.Color;
 import gol.render.datatypes.Vertex;
 
 public interface IRenderer {
@@ -10,6 +11,8 @@ public interface IRenderer {
      * Clears the drawing area.
      */
     public void clear();
+    
+    public void clearColor(Color color);
 
     /**
      * Begin rendering.
@@ -186,6 +189,9 @@ public interface IRenderer {
     public void dispose();
     
     
-    public void drawTriangle(Vertex v1, Vertex v2, Vertex v3);
+    public void drawTriangles(Vertex[] arr);
+    public void drawLines(Vertex[] arr);
+    
+    public void setViewport(int x, int y, int width, int height);
 
 }
