@@ -17,9 +17,9 @@ public class GridBox {
 		this.alive = alive;
 		
 		if(alive){
-			quad.setColor(Colors.alive);
+			quad.setColor(Colors.BOX_ALIVE);
 		}else{
-			quad.setColor(Colors.dead);
+			quad.setColor(Colors.BOX_DEAD);
 		}
 	}
 

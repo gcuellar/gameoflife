@@ -1,6 +1,7 @@
 package gol.render.datatypes;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.util.CollectionUtils;
@@ -103,6 +104,17 @@ public class Quad implements IConvertibleIntoArray{
 		};
 		
 		return arr;
+	}
+	
+	public Collection<Vertex> toVertexCollection(){
+		List<Vertex> list = new ArrayList<Vertex>();
+		list.add(v1);
+		list.add(v2);
+		list.add(v3);
+		list.add(v2);
+		list.add(v4);
+		list.add(v3);
+		return list;
 	}
 
 }

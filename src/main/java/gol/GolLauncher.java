@@ -150,7 +150,7 @@ public class GolLauncher {
 		renderManager.init();
 		
 		// Set the clear color
-		glClearColor(0.5f,0.5f,0.5f,0f);
+		glClearColor(0.5f,0f,0f,0f);
 		
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.

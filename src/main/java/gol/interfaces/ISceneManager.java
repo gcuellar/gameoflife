@@ -12,6 +12,10 @@ public interface ISceneManager {
 	public void current(SceneEnum name);
 	
 	public void renderScene();
+	public void renderScene(float alpha);
 	
 	public void updateScene();
+	public void updateScene(float delta);
+	
+	public void input();
 }

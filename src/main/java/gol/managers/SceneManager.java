@@ -51,4 +51,22 @@ public class SceneManager implements ISceneManager {
 		}
 	}
 
+	@Override
+	public void renderScene(float alpha) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateScene(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void input() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
