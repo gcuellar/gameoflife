@@ -34,30 +34,30 @@ public class MainScene extends Scene implements IRenderizable, IUpdatable {
 
 	@Override
 	public void update(float delta) {
-//		for (int i = 0; i < grid.getColumns(); i++) {
-//			for (int j = 0; j < grid.getRows(); j++) {
-//				int nAlive = grid.aliveNeighbours(i, j);
-//
-//				GridBox box = grid.gridBox(i, j);
-//				if (box.isAlive()) { // Is alive
-//					if (nAlive == 2 || nAlive == 3) {
-//						// Live
-//						box.setAlive(true);
-//					} else {
-//						// Dead
-//						box.setAlive(false);
-//					}
-//				} else { // Is dead
-//					if (nAlive == 3) {
-//						// Live
-//						box.setAlive(true);
-//					} else {
-//						// Dead
-//						box.setAlive(false);
-//					}
-//				}
-//			}
-//		}
+		for (int i = 0; i < grid.getColumns(); i++) {
+			for (int j = 0; j < grid.getRows(); j++) {
+				int nAlive = grid.aliveNeighbours(i, j);
+
+				GridBox box = grid.gridBox(i, j);
+				if (box.isAlive()) { // Is alive
+					if (nAlive == 2 || nAlive == 3) {
+						// Live
+						box.setAlive(true);
+					} else {
+						// Dead
+						box.setAlive(false);
+					}
+				} else { // Is dead
+					if (nAlive == 3) {
+						// Live
+						box.setAlive(true);
+					} else {
+						// Dead
+						box.setAlive(false);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class MainScene extends Scene implements IRenderizable, IUpdatable {
 		renderManager.clear();
 		
 		renderManager.begin();
-		grid.render(renderManager, 1f);
+		grid.render(renderManager, alpha);
 		renderManager.end();
 	}
 

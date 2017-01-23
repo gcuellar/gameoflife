@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import gol.config.Colors;
-import gol.config.Window;
+import gol.config.Config;
 import gol.render.datatypes.Quad;
 import gol.render.datatypes.Vertex;
 import gol.render.interfaces.IRenderer;
@@ -38,8 +38,8 @@ public class Grid extends Entity {
 		columns = numberOfColumns;
 
 		// Calculate width and height in pixel for one box
-		boxWidth = Window.width / columns;
-		boxHeight = Window.height / rows;
+		boxWidth = Config.WINDOW_WIDTH / columns;
+		boxHeight = Config.WINDOW_HEIGHT / rows;
 
 		// Grid instantiation
 		board = new HashMap<String, GridBox>();

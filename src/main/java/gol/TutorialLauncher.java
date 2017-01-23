@@ -46,12 +46,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import gol.config.Window;
+import gol.config.Config;
 import gol.interfaces.ISceneManager;
 import gol.render.interfaces.IRenderer;
 
 @Component
-public class GolLauncher {
+public class TutorialLauncher {
 
 	// The window handle
 	private long window;
@@ -101,7 +101,7 @@ public class GolLauncher {
 		glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 1);
 
 		// Create the window
-		window = glfwCreateWindow(Window.width, Window.height, "Hello World!", NULL, NULL);
+		window = glfwCreateWindow(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT, "Hello World!", NULL, NULL);
 		if (window == NULL)
 			throw new RuntimeException("Failed to create the GLFW window");
 
@@ -171,7 +171,7 @@ public class GolLauncher {
 
 	public static void main(String[] args) {
 		context = new AnnotationConfigApplicationContext(SpringConfig.class);
-		GolLauncher launcher = (GolLauncher)context.getBean("launcher");
+		TutorialLauncher launcher = (TutorialLauncher)context.getBean("launcher");
 		launcher.run();
 	}
 	

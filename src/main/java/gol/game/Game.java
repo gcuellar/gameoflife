@@ -9,7 +9,10 @@ import java.util.logging.Logger;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import gol.config.Config;
 import gol.interfaces.ISceneManager;
 import gol.render.datatypes.Window;
 import gol.render.interfaces.IRenderer;
@@ -20,10 +23,8 @@ import gol.render.interfaces.IRenderer;
  *
  * @author Heiko Brumme
  */
+@Component
 public abstract class Game {
-
-    public static final int TARGET_FPS = 75;
-    public static final int TARGET_UPS = 30;
 
     /**
      * The error callback for GLFW.
@@ -46,10 +47,12 @@ public abstract class Game {
     /**
      * Used for rendering.
      */
+    @Autowired
     protected IRenderer renderManager;
     /**
      * Stores the current state.
      */
+    @Autowired
     protected ISceneManager sceneManager;
 
     /**
@@ -102,7 +105,7 @@ public abstract class Game {
         }
 
         /* Create GLFW window */
-        window = new Window(640, 480, "Simple Game - Pong", true);
+        window = new Window(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT, "Default Game Window", true);
 
         /* Initialize timer */
         timer.init();
@@ -121,15 +124,8 @@ public abstract class Game {
      * Initializes the states.
      */
     public void initStates() {
-//        if (Game.isDefaultContext()) {
-//            sceneManager.add("example", new ExampleState());
-//            sceneManager.add("texture", new TextureState());
-//        } else {
-//            sceneManager.add("example", new LegacyExampleState());
-//            sceneManager.add("texture", new LegacyTextureState());
-//        }
-//        sceneManager.add("game", new GameState(renderManager));
-//        sceneManager.change("game");
+    	
+    	// Scene creation is performed in SpringConfig class.
     }
 
     /**

@@ -53,14 +53,16 @@ public class SceneManager implements ISceneManager {
 
 	@Override
 	public void renderScene(float alpha) {
-		// TODO Auto-generated method stub
-		
+		if(this.currentScene instanceof IRenderizable){
+			((IRenderizable)this.currentScene).render(alpha);
+		}
 	}
 
 	@Override
 	public void updateScene(float delta) {
-		// TODO Auto-generated method stub
-		
+		if(this.currentScene instanceof IUpdatable){
+			((IUpdatable)this.currentScene).update(delta);
+		}
 	}
 
 	@Override

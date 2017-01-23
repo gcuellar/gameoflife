@@ -28,7 +28,6 @@ import org.lwjgl.system.MemoryUtil;
 import org.springframework.stereotype.Service;
 
 import gol.config.Config;
-import gol.config.Window;
 import gol.render.datatypes.Color;
 import gol.render.datatypes.Vertex;
 import gol.render.datatypes.VertexArrayObject;
@@ -452,7 +451,7 @@ public class RenderManager implements IRenderer{
 
         /* Set projection matrix to an orthographic projection */
 //        Matrix4f projection = Matrix4f.orthographic(0f, width, 0f, height, -1f, 1f);
-        Matrix4f projection = Matrix4f.orthographic(0f, Window.width, 0f, Window.height, -1f, 1f);
+        Matrix4f projection = Matrix4f.orthographic(0f, Config.WINDOW_WIDTH, 0f, Config.WINDOW_HEIGHT, -1f, 1f);
         int uniProjection = program.getUniformLocation("projection");
         program.setUniform(uniProjection, projection);
     }
@@ -514,7 +513,7 @@ public class RenderManager implements IRenderer{
 
 	@Override
 	public void setViewport(int x, int y, int width, int height) {
-		GL11.glViewport(0, 0, Window.width, Window.height);
+		GL11.glViewport(0, 0, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
 	}
 
 
