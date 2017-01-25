@@ -1,6 +1,7 @@
 package gol.render.interfaces;
 
 import gol.render.datatypes.Color;
+import gol.render.datatypes.Texture;
 import gol.render.datatypes.Vertex;
 
 public interface IRenderer {
@@ -36,7 +37,7 @@ public interface IRenderer {
      *
      * @return Total width of the text
      */
-//    public int getTextWidth(CharSequence text);
+    public int getTextWidth(CharSequence text);
 
     /**
      * Calculates total height of a text.
@@ -45,7 +46,7 @@ public interface IRenderer {
      *
      * @return Total width of the text
      */
-//    public int getTextHeight(CharSequence text);
+    public int getTextHeight(CharSequence text);
 
     /**
      * Calculates total width of a debug text.
@@ -54,7 +55,7 @@ public interface IRenderer {
      *
      * @return Total width of the text
      */
-//    public int getDebugTextWidth(CharSequence text);
+    public int getDebugTextWidth(CharSequence text);
 
     /**
      * Calculates total height of a debug text.
@@ -63,7 +64,7 @@ public interface IRenderer {
      *
      * @return Total width of the text
      */
-//    public int getDebugTextHeight(CharSequence text);
+    public int getDebugTextHeight(CharSequence text);
 
     /**
      * Draw text at the specified position.
@@ -72,7 +73,7 @@ public interface IRenderer {
      * @param x    X coordinate of the text position
      * @param y    Y coordinate of the text position
      */
-//    public void drawText(CharSequence text, float x, float y);
+    public void drawText(CharSequence text, float x, float y);
 
     /**
      * Draw debug text at the specified position.
@@ -81,7 +82,7 @@ public interface IRenderer {
      * @param x    X coordinate of the text position
      * @param y    Y coordinate of the text position
      */
-//    public void drawDebugText(CharSequence text, float x, float y);
+    public void drawDebugText(CharSequence text, float x, float y);
 
     /**
      * Draw text at the specified position and color.
@@ -91,7 +92,7 @@ public interface IRenderer {
      * @param y    Y coordinate of the text position
      * @param c    Color to use
      */
-//    public void drawText(CharSequence text, float x, float y, Color c);
+    public void drawText(CharSequence text, float x, float y, Color c);
 
     /**
      * Draw debug text at the specified position and color.
@@ -101,7 +102,7 @@ public interface IRenderer {
      * @param y    Y coordinate of the text position
      * @param c    Color to use
      */
-//    public void drawDebugText(CharSequence text, float x, float y, Color c);
+    public void drawDebugText(CharSequence text, float x, float y, Color c);
 
     /**
      * Draws the currently bound texture on specified coordinates.
@@ -110,7 +111,7 @@ public interface IRenderer {
      * @param x       X position of the texture
      * @param y       Y position of the texture
      */
-//    public void drawTexture(Texture texture, float x, float y);
+    public void drawTexture(Texture texture, float x, float y);
 
     /**
      * Draws the currently bound texture on specified coordinates and with
@@ -121,7 +122,7 @@ public interface IRenderer {
      * @param y       Y position of the texture
      * @param c       The color to use
      */
-//    public void drawTexture(Texture texture, float x, float y, Color c);
+    public void drawTexture(Texture texture, float x, float y, Color c);
 
     /**
      * Draws a texture region with the currently bound texture on specified
@@ -135,7 +136,7 @@ public interface IRenderer {
      * @param regWidth  Width of the texture region
      * @param regHeight Height of the texture region
      */
-//    public void drawTextureRegion(Texture texture, float x, float y, float regX, float regY, float regWidth, float regHeight);
+    public void drawTextureRegion(Texture texture, float x, float y, float regX, float regY, float regWidth, float regHeight);
 
     /**
      * Draws a texture region with the currently bound texture on specified
@@ -150,7 +151,7 @@ public interface IRenderer {
      * @param regHeight Height of the texture region
      * @param c         The color to use
      */
-//    public void drawTextureRegion(Texture texture, float x, float y, float regX, float regY, float regWidth, float regHeight, Color c);
+    public void drawTextureRegion(Texture texture, float x, float y, float regX, float regY, float regWidth, float regHeight, Color c);
 
     /**
      * Draws a texture region with the currently bound texture on specified
@@ -165,7 +166,7 @@ public interface IRenderer {
      * @param s2 Top right s coordinate
      * @param t2 Top right t coordinate
      */
-//    public void drawTextureRegion(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2);
+    public void drawTextureRegion(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2);
 
     /**
      * Draws a texture region with the currently bound texture on specified
@@ -181,7 +182,7 @@ public interface IRenderer {
      * @param t2 Top right t coordinate
      * @param c  The color to use
      */
-//    public void drawTextureRegion(float x1, flosat y1, float x2, float y2, float s1, float t1, float s2, float t2, Color c);
+    public void drawTextureRegion(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2, Color c);
 
     /**
      * Dispose renderer and clean up its used data.

@@ -1,6 +1,6 @@
 package gol.scene.entities;
 
-import gol.config.Colors;
+import gol.config.Config;
 import gol.render.datatypes.Quad;
 
 public class GridBox {
@@ -17,9 +17,9 @@ public class GridBox {
 		this.alive = alive;
 		
 		if(alive){
-			quad.setColor(Colors.BOX_ALIVE);
+			quad.setColor(Config.COLOR_BOX_ALIVE);
 		}else{
-			quad.setColor(Colors.BOX_DEAD);
+			quad.setColor(Config.COLOR_BOX_DEAD);
 		}
 	}
 

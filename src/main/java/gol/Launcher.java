@@ -5,8 +5,12 @@ import org.springframework.context.support.GenericApplicationContext;
 
 import gol.game.Game;
 
-
 public class Launcher {
+//	static { 
+//	      System.setProperty("java.awt.headless", "true");
+//	      System.out.println(java.awt.GraphicsEnvironment.isHeadless());
+//	    }
+	
 	
 	private static GenericApplicationContext context;
 

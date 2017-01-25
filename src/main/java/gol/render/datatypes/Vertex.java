@@ -2,12 +2,13 @@ package gol.render.datatypes;
 
 import gol.render.interfaces.IConvertibleIntoArray;
 
-public class Vertex implements IConvertibleIntoArray{
+public class Vertex implements IConvertibleIntoArray {
 
-	public static final int NUM_OF_COMPONENTS = 7;
-	
+	public static final int NUM_OF_COMPONENTS = 8;
+
 	private float x, y, z;
-	private float red, green, blue, alpha;
+	private float red, green, blue;
+	private float u, v;
 
 	public Vertex() {
 		x = 0.0f;
@@ -17,10 +18,12 @@ public class Vertex implements IConvertibleIntoArray{
 		red = 0.0f;
 		green = 0.0f;
 		blue = 0.0f;
-		alpha = 0.0f;
+
+		u = 0f;
+		v = 0f;
 	}
-	
-	public Vertex(Vertex another, Color color){
+
+	public Vertex(Vertex another, Color color) {
 		x = another.getX();
 		y = another.getY();
 		z = another.getZ();
@@ -28,7 +31,9 @@ public class Vertex implements IConvertibleIntoArray{
 		red = color.getRed();
 		green = color.getGreen();
 		blue = color.getBlue();
-		alpha = color.getAlpha();
+
+		u = another.getU();
+		v = another.getV();
 	}
 
 	public Vertex(float xCoord, float yCoord, float zCoord) {
@@ -39,7 +44,9 @@ public class Vertex implements IConvertibleIntoArray{
 		red = 0.0f;
 		green = 0.0f;
 		blue = 0.0f;
-		alpha = 0.0f;
+
+		u = 0f;
+		v = 0f;
 	}
 
 	public Vertex(float xCoord, float yCoord, float zCoord, Color color) {
@@ -50,7 +57,9 @@ public class Vertex implements IConvertibleIntoArray{
 		red = color.getRed();
 		green = color.getGreen();
 		blue = color.getBlue();
-		alpha = color.getAlpha();
+
+		u = 0f;
+		v = 0f;
 	}
 
 	public float getX() {
@@ -101,20 +110,26 @@ public class Vertex implements IConvertibleIntoArray{
 		this.blue = blue;
 	}
 
-	public float getAlpha() {
-		return alpha;
+	public float getU() {
+		return u;
 	}
 
-	public void setAlpha(float alpha) {
-		this.alpha = alpha;
+	public void setU(float u) {
+		this.u = u;
+	}
+
+	public float getV() {
+		return v;
+	}
+
+	public void setV(float v) {
+		this.v = v;
 	}
 
 	@Override
 	public float[] toFloatArray() {
-		float[] arr = {
-			x,y,z,red,green,blue,alpha	
-		};
-		
+		float[] arr = { x, y, z, red, green, blue, u, v };
+
 		return arr;
 	}
 

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import gol.config.Colors;
 import gol.config.Config;
 import gol.render.datatypes.Quad;
 import gol.render.datatypes.Vertex;
@@ -47,10 +46,10 @@ public class Grid extends Entity {
 			for (int j = 0; j < rows; j++) {
 				GridBox box = new GridBox(false);
 				Quad quad = new Quad();
-				quad.setV1(new Vertex(i*boxWidth, (j+1)*boxHeight, 0f, Colors.BOX_DEAD));
-				quad.setV2(new Vertex(i*boxWidth, j*boxHeight, 0f, Colors.BOX_DEAD));
-				quad.setV3(new Vertex((i+1)*boxWidth, (j+1)*boxHeight, 0f, Colors.BOX_DEAD));
-				quad.setV4(new Vertex((i+1)*boxWidth, j*boxHeight, 0f, Colors.BOX_DEAD));
+				quad.setV1(new Vertex(i*boxWidth, (j+1)*boxHeight, 0f, Config.COLOR_BOX_DEAD));
+				quad.setV2(new Vertex(i*boxWidth, j*boxHeight, 0f, Config.COLOR_BOX_DEAD));
+				quad.setV3(new Vertex((i+1)*boxWidth, (j+1)*boxHeight, 0f, Config.COLOR_BOX_DEAD));
+				quad.setV4(new Vertex((i+1)*boxWidth, j*boxHeight, 0f, Config.COLOR_BOX_DEAD));
 				box.setQuad(quad);
 				
 				board.put(i+";"+j, box);
@@ -71,7 +70,7 @@ public class Grid extends Entity {
 	@Override
 	public void render(IRenderer renderer, float alpha) {
 		
-		renderer.clearColor(Colors.BOX_DEAD);
+		renderer.clearColor(Config.COLOR_BOX_DEAD);
 		
 		renderer.drawLines(boardLines);
 		renderer.drawTriangles(alives());
@@ -84,27 +83,29 @@ public class Grid extends Entity {
 	}
 	
 	private void initGridLines(){
+		// Vertical
 		List<Vertex> list = new ArrayList<Vertex>();
 		for(int i=0;i<columns;i++){
-			Vertex v1 = new Vertex(board.get(i+";0").getQuad().getV2(), Colors.GRID_LINES);
+			Vertex v1 = new Vertex(board.get(i+";0").getQuad().getV2(), Config.COLOR_GRID_LINES);
 			list.add(v1);
-			Vertex v2 = new Vertex(board.get(i+";"+(rows-1)).getQuad().getV1(), Colors.GRID_LINES);
+			Vertex v2 = new Vertex(board.get(i+";"+(rows-1)).getQuad().getV1(), Config.COLOR_GRID_LINES);
 			list.add(v2);
 		}
-		Vertex v1 = new Vertex(board.get((columns-1)+";0").getQuad().getV4(), Colors.GRID_LINES);
+		Vertex v1 = new Vertex(board.get((columns-1)+";0").getQuad().getV4(), Config.COLOR_GRID_LINES);
 		list.add(v1);
-		Vertex v2 = new Vertex(board.get((columns-1)+";"+(rows-1)).getQuad().getV3(), Colors.GRID_LINES);
+		Vertex v2 = new Vertex(board.get((columns-1)+";"+(rows-1)).getQuad().getV3(), Config.COLOR_GRID_LINES);
 		list.add(v2);
 		
+		// Horizontal
 		for(int i=0;i<rows;i++){
-			Vertex vA = new Vertex(board.get("0;"+i).getQuad().getV2(), Colors.GRID_LINES);
+			Vertex vA = new Vertex(board.get("0;"+i).getQuad().getV2(), Config.COLOR_GRID_LINES);
 			list.add(vA);
-			Vertex vB = new Vertex(board.get((columns-1)+";"+i).getQuad().getV4(), Colors.GRID_LINES);
+			Vertex vB = new Vertex(board.get((columns-1)+";"+i).getQuad().getV4(), Config.COLOR_GRID_LINES);
 			list.add(vB);
 		}
-		Vertex vA = new Vertex(board.get("0;"+(rows-1)).getQuad().getV1(), Colors.GRID_LINES);
+		Vertex vA = new Vertex(board.get("0;"+(rows-1)).getQuad().getV1(), Config.COLOR_GRID_LINES);
 		list.add(vA);
-		Vertex vB = new Vertex(board.get((columns-1)+";"+(rows-1)).getQuad().getV3(), Colors.GRID_LINES);
+		Vertex vB = new Vertex(board.get((columns-1)+";"+(rows-1)).getQuad().getV3(), Config.COLOR_GRID_LINES);
 		list.add(vB);
 		
 		boardLines = list.stream().toArray(size -> new Vertex[size]);

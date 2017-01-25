@@ -71,11 +71,6 @@ public class Quad implements IConvertibleIntoArray{
 		v2.setBlue(color.getBlue());
 		v3.setBlue(color.getBlue());
 		v4.setBlue(color.getBlue());
-		
-		v1.setAlpha(color.getAlpha());
-		v2.setAlpha(color.getAlpha());
-		v3.setAlpha(color.getAlpha());
-		v4.setAlpha(color.getAlpha());
 	}
 
 	@Override

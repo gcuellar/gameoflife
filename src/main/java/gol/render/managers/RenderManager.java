@@ -17,8 +17,13 @@ import static org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW;
 import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
 
+import java.awt.FontFormatException;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
@@ -29,6 +34,8 @@ import org.springframework.stereotype.Service;
 
 import gol.config.Config;
 import gol.render.datatypes.Color;
+import gol.render.datatypes.Font;
+import gol.render.datatypes.Texture;
 import gol.render.datatypes.Vertex;
 import gol.render.datatypes.VertexArrayObject;
 import gol.render.datatypes.VertexBufferObject;
@@ -49,8 +56,8 @@ public class RenderManager implements IRenderer{
     private boolean drawing;
     private int drawingMode = GL_TRIANGLES;
 
-//    private Font font;
-//    private Font debugFont;
+    private Font font;
+    private Font debugFont;
 
     /** Initializes the renderer. */
     public void init() {
@@ -63,9 +70,14 @@ public class RenderManager implements IRenderer{
         
         /* Create fonts */
 //        try {
-//            font = new Font(new FileInputStream("resources/fonts/Inconsolata.ttf"), 16);
+//        	FileInputStream fis = new FileInputStream(Thread.currentThread()
+//					.getContextClassLoader()
+//					.getResource("fonts/Inconsolata.ttf")
+//					.getFile());
+//        	font = new Font(fis,16);
+//           
 //        } catch (FontFormatException | IOException ex) {
-//            Logger.getLogger(Renderer.class.getName()).log(Level.CONFIG, null, ex);
+//            Logger.getLogger(IRenderer.class.getName()).log(Level.CONFIG, null, ex);
 //            font = new Font();
 //        }
 //        debugFont = new Font(12, false);
@@ -80,7 +92,7 @@ public class RenderManager implements IRenderer{
     
     @Override
     public void clearColor(Color color){
-    	glClearColor(color.getRed(),color.getGreen(), color.getBlue(), color.getAlpha());
+    	glClearColor(color.getRed(),color.getGreen(), color.getBlue(), 1f);
     }
 
     /**
@@ -140,9 +152,9 @@ public class RenderManager implements IRenderer{
      *
      * @return Total width of the text
      */
-//    public int getTextWidth(CharSequence text) {
-//        return font.getWidth(text);
-//    }
+    public int getTextWidth(CharSequence text) {
+        return font.getWidth(text);
+    }
 
     /**
      * Calculates total height of a text.
@@ -151,9 +163,9 @@ public class RenderManager implements IRenderer{
      *
      * @return Total width of the text
      */
-//    public int getTextHeight(CharSequence text) {
-//        return font.getHeight(text);
-//    }
+    public int getTextHeight(CharSequence text) {
+        return font.getHeight(text);
+    }
 
     /**
      * Calculates total width of a debug text.
@@ -162,9 +174,9 @@ public class RenderManager implements IRenderer{
      *
      * @return Total width of the text
      */
-//    public int getDebugTextWidth(CharSequence text) {
-//        return debugFont.getWidth(text);
-//    }
+    public int getDebugTextWidth(CharSequence text) {
+        return debugFont.getWidth(text);
+    }
 
     /**
      * Calculates total height of a debug text.
@@ -173,9 +185,9 @@ public class RenderManager implements IRenderer{
      *
      * @return Total width of the text
      */
-//    public int getDebugTextHeight(CharSequence text) {
-//        return debugFont.getHeight(text);
-//    }
+    public int getDebugTextHeight(CharSequence text) {
+        return debugFont.getHeight(text);
+    }
 
     /**
      * Draw text at the specified position.
@@ -184,9 +196,9 @@ public class RenderManager implements IRenderer{
      * @param x    X coordinate of the text position
      * @param y    Y coordinate of the text position
      */
-//    public void drawText(CharSequence text, float x, float y) {
-//        font.drawText(this, text, x, y);
-//    }
+    public void drawText(CharSequence text, float x, float y) {
+        font.drawText(this, text, x, y);
+    }
 
     /**
      * Draw debug text at the specified position.
@@ -195,9 +207,9 @@ public class RenderManager implements IRenderer{
      * @param x    X coordinate of the text position
      * @param y    Y coordinate of the text position
      */
-//    public void drawDebugText(CharSequence text, float x, float y) {
-//        debugFont.drawText(this, text, x, y);
-//    }
+    public void drawDebugText(CharSequence text, float x, float y) {
+        debugFont.drawText(this, text, x, y);
+    }
 
     /**
      * Draw text at the specified position and color.
@@ -207,9 +219,9 @@ public class RenderManager implements IRenderer{
      * @param y    Y coordinate of the text position
      * @param c    Color to use
      */
-//    public void drawText(CharSequence text, float x, float y, Color c) {
-//        font.drawText(this, text, x, y, c);
-//    }
+    public void drawText(CharSequence text, float x, float y, Color c) {
+        font.drawText(this, text, x, y, c);
+    }
 
     /**
      * Draw debug text at the specified position and color.
@@ -219,9 +231,9 @@ public class RenderManager implements IRenderer{
      * @param y    Y coordinate of the text position
      * @param c    Color to use
      */
-//    public void drawDebugText(CharSequence text, float x, float y, Color c) {
-//        debugFont.drawText(this, text, x, y, c);
-//    }
+    public void drawDebugText(CharSequence text, float x, float y, Color c) {
+        debugFont.drawText(this, text, x, y, c);
+    }
 
     /**
      * Draws the currently bound texture on specified coordinates.
@@ -230,9 +242,9 @@ public class RenderManager implements IRenderer{
      * @param x       X position of the texture
      * @param y       Y position of the texture
      */
-//    public void drawTexture(Texture texture, float x, float y) {
-//        drawTexture(texture, x, y, Color.WHITE);
-//    }
+    public void drawTexture(Texture texture, float x, float y) {
+        drawTexture(texture, x, y, Color.WHITE);
+    }
 
     /**
      * Draws the currently bound texture on specified coordinates and with
@@ -243,21 +255,21 @@ public class RenderManager implements IRenderer{
      * @param y       Y position of the texture
      * @param c       The color to use
      */
-//    public void drawTexture(Texture texture, float x, float y, Color c) {
-//        /* Vertex positions */
-//        float x1 = x;
-//        float y1 = y;
-//        float x2 = x1 + texture.getWidth();
-//        float y2 = y1 + texture.getHeight();
-//
-//        /* Texture coordinates */
-//        float s1 = 0f;
-//        float t1 = 0f;
-//        float s2 = 1f;
-//        float t2 = 1f;
-//
-//        drawTextureRegion(x1, y1, x2, y2, s1, t1, s2, t2, c);
-//    }
+    public void drawTexture(Texture texture, float x, float y, Color c) {
+        /* Vertex positions */
+        float x1 = x;
+        float y1 = y;
+        float x2 = x1 + texture.getWidth();
+        float y2 = y1 + texture.getHeight();
+
+        /* Texture coordinates */
+        float s1 = 0f;
+        float t1 = 0f;
+        float s2 = 1f;
+        float t2 = 1f;
+
+        drawTextureRegion(x1, y1, x2, y2, s1, t1, s2, t2, c);
+    }
 
     /**
      * Draws a texture region with the currently bound texture on specified
@@ -271,9 +283,9 @@ public class RenderManager implements IRenderer{
      * @param regWidth  Width of the texture region
      * @param regHeight Height of the texture region
      */
-//    public void drawTextureRegion(Texture texture, float x, float y, float regX, float regY, float regWidth, float regHeight) {
-//        drawTextureRegion(texture, x, y, regX, regY, regWidth, regHeight, Color.WHITE);
-//    }
+    public void drawTextureRegion(Texture texture, float x, float y, float regX, float regY, float regWidth, float regHeight) {
+        drawTextureRegion(texture, x, y, regX, regY, regWidth, regHeight, Color.WHITE);
+    }
 
     /**
      * Draws a texture region with the currently bound texture on specified
@@ -288,21 +300,21 @@ public class RenderManager implements IRenderer{
      * @param regHeight Height of the texture region
      * @param c         The color to use
      */
-//    public void drawTextureRegion(Texture texture, float x, float y, float regX, float regY, float regWidth, float regHeight, Color c) {
-//        /* Vertex positions */
-//        float x1 = x;
-//        float y1 = y;
-//        float x2 = x + regWidth;
-//        float y2 = y + regHeight;
-//
-//        /* Texture coordinates */
-//        float s1 = regX / texture.getWidth();
-//        float t1 = regY / texture.getHeight();
-//        float s2 = (regX + regWidth) / texture.getWidth();
-//        float t2 = (regY + regHeight) / texture.getHeight();
-//
-//        drawTextureRegion(x1, y1, x2, y2, s1, t1, s2, t2, c);
-//    }
+    public void drawTextureRegion(Texture texture, float x, float y, float regX, float regY, float regWidth, float regHeight, Color c) {
+        /* Vertex positions */
+        float x1 = x;
+        float y1 = y;
+        float x2 = x + regWidth;
+        float y2 = y + regHeight;
+
+        /* Texture coordinates */
+        float s1 = regX / texture.getWidth();
+        float t1 = regY / texture.getHeight();
+        float s2 = (regX + regWidth) / texture.getWidth();
+        float t2 = (regY + regHeight) / texture.getHeight();
+
+        drawTextureRegion(x1, y1, x2, y2, s1, t1, s2, t2, c);
+    }
 
     /**
      * Draws a texture region with the currently bound texture on specified
@@ -317,9 +329,9 @@ public class RenderManager implements IRenderer{
      * @param s2 Top right s coordinate
      * @param t2 Top right t coordinate
      */
-//    public void drawTextureRegion(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2) {
-//        drawTextureRegion(x1, y1, x2, y2, s1, t1, s2, t2, Color.WHITE);
-//    }
+    public void drawTextureRegion(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2) {
+        drawTextureRegion(x1, y1, x2, y2, s1, t1, s2, t2, Color.WHITE);
+    }
 
     /**
      * Draws a texture region with the currently bound texture on specified
@@ -335,26 +347,26 @@ public class RenderManager implements IRenderer{
      * @param t2 Top right t coordinate
      * @param c  The color to use
      */
-//    public void drawTextureRegion(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2, Color c) {
-//        if (vertices.remaining() < 7 * 6) {
-//            /* We need more space in the buffer, so flush it */
-//            flush();
-//        }
-//
-//        float r = c.getRed();
-//        float g = c.getGreen();
-//        float b = c.getBlue();
-//
-//        vertices.put(x1).put(y1).put(r).put(g).put(b).put(s1).put(t1);
-//        vertices.put(x1).put(y2).put(r).put(g).put(b).put(s1).put(t2);
-//        vertices.put(x2).put(y2).put(r).put(g).put(b).put(s2).put(t2);
-//
-//        vertices.put(x1).put(y1).put(r).put(g).put(b).put(s1).put(t1);
-//        vertices.put(x2).put(y2).put(r).put(g).put(b).put(s2).put(t2);
-//        vertices.put(x2).put(y1).put(r).put(g).put(b).put(s2).put(t1);
-//
-//        numVertices += 6;
-//    }
+    public void drawTextureRegion(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2, Color c) {
+        if (vertices.remaining() < Vertex.NUM_OF_COMPONENTS * 6) {
+            /* We need more space in the buffer, so flush it */
+            flush();
+        }
+
+        float r = c.getRed();
+        float g = c.getGreen();
+        float b = c.getBlue();
+
+        vertices.put(x1).put(y1).put(0f).put(r).put(g).put(b).put(s1).put(t1);
+        vertices.put(x1).put(y2).put(0f).put(r).put(g).put(b).put(s1).put(t2);
+        vertices.put(x2).put(y2).put(0f).put(r).put(g).put(b).put(s2).put(t2);
+
+        vertices.put(x1).put(y1).put(0f).put(r).put(g).put(b).put(s1).put(t1);
+        vertices.put(x2).put(y2).put(0f).put(r).put(g).put(b).put(s2).put(t2);
+        vertices.put(x2).put(y1).put(0f).put(r).put(g).put(b).put(s2).put(t1);
+
+        numVertices += 6;
+    }
 
     /**
      * Dispose renderer and clean up its used data.
@@ -468,12 +480,12 @@ public class RenderManager implements IRenderer{
         /* Specify Color Pointer */
         int colAttrib = program.getAttributeLocation("color");
         program.enableVertexAttribute(colAttrib);
-        program.pointVertexAttribute(colAttrib, 4, Vertex.NUM_OF_COMPONENTS * Float.BYTES, 3 * Float.BYTES);
+        program.pointVertexAttribute(colAttrib, 3, Vertex.NUM_OF_COMPONENTS * Float.BYTES, 3 * Float.BYTES);
 
         /* Specify Texture Pointer */
 //        int texAttrib = program.getAttributeLocation("texcoord");
 //        program.enableVertexAttribute(texAttrib);
-//        program.pointVertexAttribute(texAttrib, 2, Vertex.NUM_OF_COMPONENTS * Float.BYTES, 5 * Float.BYTES);
+//        program.pointVertexAttribute(texAttrib, 2, Vertex.NUM_OF_COMPONENTS * Float.BYTES, 6 * Float.BYTES);
     }
     
     @Override
